@@ -1,0 +1,105 @@
+import cv2
+import yt_dlp
+import numpy as np
+
+def select_roi(url_youtube):
+    try:
+        ydl_opts = {
+            'format': 'best[ext=mp4]',
+            'quiet': True
+        }
+        
+        # get stream url without downloading it 
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url_youtube, download=False)
+            stream_url = info['url']
+        
+        print("stream url obtained successfully. yay.")
+        
+        cap = cv2.VideoCapture(stream_url)
+        
+        if not cap.isOpened():
+            raise Exception("couldnt open the stream.")
+            
+        print("capturing a frame from stream...")
+        
+        # reads a frame
+        ret, frame = cap.read()
+        if not ret:
+            print("couldnt read the frame.")
+            return 0, 0, 0, 0
+            
+        window_name = "select the region (press 'c' to confirm)"
+        
+        img = frame.copy()
+        
+        drawing = False
+        ix, iy = -1, -1
+        x, y, w, h = 0, 0, 0, 0
+        
+        # callback mouse function
+        def draw_rectangle(event, x_pos, y_pos, flags, param):
+            nonlocal drawing, ix, iy, x, y, w, h, img
+            
+            if event == cv2.EVENT_LBUTTONDOWN:
+                drawing = True
+                ix, iy = x_pos, y_pos
+                
+            elif event == cv2.EVENT_MOUSEMOVE:
+                if drawing:
+                    # drawin a rectangle on a clone of the og frame so i don't mess stuff up
+                    img = frame.copy()
+                    cv2.rectangle(img, (ix, iy), (x_pos, y_pos), (0, 255, 0), 2)
+                    
+            elif event == cv2.EVENT_LBUTTONUP:
+                drawing = False
+                # calculating final coordenates
+                x = min(ix, x_pos)
+                y = min(iy, y_pos)
+                w = abs(ix - x_pos)
+                h = abs(iy - y_pos)
+                # draws the final rectangle
+                cv2.rectangle(img, (ix, iy), (x_pos, y_pos), (0, 255, 0), 2)
+        
+        # open a lil window and set up the click thingy - callback
+        cv2.namedWindow(window_name)
+        cv2.setMouseCallback(window_name, draw_rectangle)
+        
+        while True:
+            cv2.imshow(window_name, img)
+            
+            # wait for the key
+            key = cv2.waitKey(1) & 0xFF
+            
+            # if 'c' is pressed, confirms
+            if key == ord('c'):
+                break
+                
+            # if 'esc' is pressed, cancels it
+            elif key == 27: 
+                x, y, w, h = 0, 0, 0, 0
+                break
+        
+        cap.release()
+        cv2.destroyAllWindows()
+        
+        if w > 0 and h > 0:
+            print(f"ROI: x={x}, y={y}, width={w}, height={h}")
+            # shows the roi
+            roi = frame[y:y+h, x:x+w]
+            cv2.imshow("ROI", roi)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+        else:
+            print("no roi")
+            
+        return x, y, w, h
+        
+    except Exception as e:
+        print(f"Erro: {e}")
+        return 0, 0, 0, 0
+
+if __name__ == "__main__":
+    url_live = input("paste the YouTube Live URL: ")
+    x, y, width, height = select_roi(url_live)
+    print(f"x={x}, y={y}, width={width}, height={height}")
