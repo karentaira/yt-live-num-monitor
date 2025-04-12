@@ -93,14 +93,13 @@ def extract_num(url_youtube, x, y, width, height, interval):
 
 
 if __name__ == "__main__":
-    url_live = "https://www.youtube.com/watch?v=WHjiv-rs1gY"
-    #thats a roblox live for something idk but its ok for testing
+    url_live = "" # replace with your youtube livestream URL
     
     x = 17
     y = 73
     width = 458
     height = 73
     interval = 10
-    #10 but 20 actually
+    # setting to 10, but effective interval may be 20 due to processing time
 
     extract_num(url_live, x, y, width, height, interval)
