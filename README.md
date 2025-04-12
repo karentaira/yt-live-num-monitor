@@ -3,11 +3,11 @@
 Ok, so I made this program to monitor a Youtube live stream and capture a number shown-on-screen from a specific area of the video frame.
 Along with it, there is a python script to grab a frame from your stream - extra useful because you'll need the parameters it returns (x, y, width and height) to use the main program.
 
+## Requirements
 Used:
 - OpenCV for handling the video stream and grabbing frames;
 - Tesseract to read the number from the image;
 
-## Requirements
 To run this program, you'll need:
 - Python 3.6+
 - OpenCV (`pip install opencv-python`)
@@ -33,6 +33,6 @@ To run this program, you'll need:
 5. If it detects a new number, it logs it
 6. You can press 'q' anytime to quit the program/stream.
 
-⚠️ FYIs:
+## ⚠️ FYIs:
 - this is meant for chill, non-intensive monitoring. if u want millisecond precision, this ain't it.
 - my comments are indeed informal, but if u see this code and hate that, feel free to change it (boring tho)
