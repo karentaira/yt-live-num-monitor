@@ -53,7 +53,7 @@ def select_roi(url_youtube):
                     
             elif event == cv2.EVENT_LBUTTONUP:
                 drawing = False
-                # calculating final coordenates
+                # calculating final coordinates
                 x = min(ix, x_pos)
                 y = min(iy, y_pos)
                 w = abs(ix - x_pos)
@@ -96,7 +96,7 @@ def select_roi(url_youtube):
         return x, y, w, h
         
     except Exception as e:
-        print(f"Erro: {e}")
+        print(f"Error: {e}")
         return 0, 0, 0, 0
 
 if __name__ == "__main__":

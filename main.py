@@ -26,8 +26,8 @@ def extract_num(url_youtube, x, y, width, height, interval):
         if not cap.isOpened():
             raise Exception("couldnt open the stream, yt being yt prob.")
             
-        print(f"stream starded. extracting numbers in region ({x}, {y}, {width}, {height})...")
-        print(f"updating every {interval} seconds. hit 'q' to quit if ur bored.")
+        print(f"stream started. extracting numbers in region ({x}, {y}, {width}, {height})...")
+        print(f"updating every {interval} seconds. hit 'q' to quit.")
         
         next_check_time = time.time() + interval
         last_num = ""
@@ -53,12 +53,12 @@ def extract_num(url_youtube, x, y, width, height, interval):
             
             # verifies if its time to do the ocr thing
             if current_time >= next_check_time:
-                print(f"[{time.strftime('%H:%M:%S')}] Processando OCR...")
+                print(f"[{time.strftime('%H:%M:%S')}] processing OCR...")
                 
                 # puts the captured frame in b&w
                 gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
                 
-                # make it a pil image cause tessaract
+                # make it a pil image cause tesseract
                 pil_img = Image.fromarray(gray)
                 
                 # extract text using OCR
@@ -89,7 +89,7 @@ def extract_num(url_youtube, x, y, width, height, interval):
         cv2.destroyAllWindows()
         
     except Exception as e:
-        print(f"error: {e} - fix it loser.")
+        print(f"error: {e}")
 
 
 if __name__ == "__main__":
