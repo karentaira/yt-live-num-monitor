@@ -19,13 +19,13 @@ To run this program, you'll need:
   - For Windows: Download and install from https://github.com/UB-Mannheim/tesseract/wiki
   - For macOS: `brew install tesseract`
   - For Linux: `sudo apt install tesseract-ocr`
-  
-Why Python and not C++? 💔
+
+## Why Python and not C++? 💔
 - I chose Python totally against my will, but it's definitely a better choice since the code is WAY shorter and, in my case, I don't need to count every single second, so the advantages of using CPP would be kinda useless (still way more fun and prettier tho)
 - If you need to count every second for your program, i highly recommend switching to CPP
 - I'll use Firebase as the server/backend of an app that will store the detected number, and doing this in CPP would be EXTRA PAINFUL for no real benefit
 
-How it works:
+## How it works:
 1. Use yt-dlp to grab the YouTube stream URL
 2. OpenCV opens the stream and crops the region of interest (ROI)
 3. Every X seconds, it captures a frame from that region
